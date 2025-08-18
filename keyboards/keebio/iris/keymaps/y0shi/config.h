@@ -5,3 +5,7 @@
 
 // Enable layer state sync for split keyboard
 #define SPLIT_LAYER_STATE_ENABLE
+
+// Split keyboard handedness detection
+#define SPLIT_HAND_PIN GP4
+#define SPLIT_HAND_PIN_LOW_IS_LEFT

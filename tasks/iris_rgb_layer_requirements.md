@@ -58,6 +58,21 @@ Implement RGB lighting that changes colors based on the active layer for a Keebi
 - All 68 LEDs change color based on active layer
 - Split keyboard layer state syncing enabled
 
+## Two Keymap Versions Created
+
+### 1. `y0shi` - Standard Keymap
+- RGB Matrix layer indicators
+- 3 layers with colors: White (Base), Blue (Lower), Green (Upper)
+- No VIA support - requires recompilation to change keys
+- Firmware: `keebio_iris_rev8_y0shi.uf2`
+
+### 2. `y0shi_via` - VIA-Enabled Keymap  
+- ✅ RGB Matrix layer indicators (same colors)
+- ✅ VIA support for real-time key remapping
+- 4 layers: White (Base), Blue (Lower), Green (Upper), Red (Adjust)
+- Link-time optimization enabled for smaller firmware
+- Firmware: `keebio_iris_rev8_y0shi_via.uf2`
+
 ## Success Criteria
 - LEDs change color when switching layers
 - Both keyboard halves show the same color
