@@ -35,6 +35,10 @@ void set_layer_rgb(uint8_t layer) {
 }
 
 layer_state_t layer_state_set_user(layer_state_t state) {
+    // Lower (1) + Upper (2) both active -> also activate Adjust (3), same as
+    // the old native tri-layer keys, but now works whether 1/2 got there by
+    // holding or by tap-toggle.
+    state = update_tri_layer_state(state, 1, 2, 3);
     uint8_t layer = get_highest_layer(state | default_layer_state);
     set_layer_rgb(layer);
     return state;

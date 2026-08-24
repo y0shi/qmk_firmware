@@ -13,5 +13,8 @@
 #define RGB_MATRIX_LIMIT_VAL 128
 #define RGB_MATRIX_DEFAULT_MODE RGB_MATRIX_SOLID_COLOR
 
+// Single tap toggles Lower/Upper (TT) on/off; holding still acts as momentary.
+#define TAPPING_TOGGLE 1
+
 // Disable RGB matrix split synchronization to prevent conflicts
 #define RGB_MATRIX_DISABLE_SHARED_KEYCODES

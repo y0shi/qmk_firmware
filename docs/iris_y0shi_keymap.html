@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Iris Keyboard - y0shi_via Keymap</title>
+    <style>
+        @page { size: letter; margin: 0.25in; }
+
+        * { box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, 'Segoe UI', Arial, sans-serif;
+            margin: 0;
+            padding: 28px 16px;
+            background: #141414;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .legend {
+            color: #9a9a9a;
+            font-size: 12px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .legend span { display: inline-flex; align-items: center; gap: 6px; }
+        .swatch { width: 12px; height: 12px; border-radius: 3px; display: inline-block; }
+
+        .layer {
+            border-radius: 26px;
+            padding: 28px 34px 22px;
+            margin-bottom: 22px;
+            box-shadow: 0 10px 28px rgba(0,0,0,.45);
+            page-break-inside: avoid;
+        }
+
+        .layer-title {
+            text-align: center;
+            font-size: 21px;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: underline;
+            text-underline-offset: 4px;
+            letter-spacing: .3px;
+            margin-bottom: 18px;
+        }
+
+        .keyboard-grid {
+            display: grid;
+            grid-template-columns: repeat(14, 44px);
+            grid-template-rows: repeat(5, 44px);
+            gap: 6px;
+            overflow: visible;
+        }
+
+        .key {
+            border-radius: 9px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 10px;
+            line-height: 1.15;
+            text-align: center;
+            box-shadow: inset 0 -3px 0 rgba(0,0,0,.28), 0 2px 3px rgba(0,0,0,.35);
+            user-select: none;
+        }
+
+        .key-shifted { font-size: 8px; opacity: .8; margin-bottom: 1px; }
+        .key-main { font-size: 11px; font-weight: 700; }
+        .key-label { font-size: 8.5px; font-weight: 700; }
+
+        .key.trns { opacity: .38; box-shadow: none; font-size: 13px; }
+
+        .key.diamond {
+            width: 34px;
+            height: 34px;
+            justify-self: center;
+            align-self: center;
+            transform: rotate(45deg);
+        }
+        .key.diamond .diamond-inner {
+            transform: rotate(-45deg);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .key.updated {
+            box-shadow: 0 0 0 2px #ff5c5c, inset 0 -3px 0 rgba(0,0,0,.28), 0 2px 3px rgba(0,0,0,.35);
+        }
+
+        .key.accent-lower { box-shadow: inset 0 0 0 2px #c9922f, inset 0 -3px 0 rgba(0,0,0,.28); }
+        .key.accent-raise { box-shadow: inset 0 0 0 2px #8177d1, inset 0 -3px 0 rgba(0,0,0,.28); }
+
+        /* Base layer palette */
+        .card-base { background: #22a196; }
+        .card-base .key.light { background: #bfe3dc; color: #0d2b27; }
+        .card-base .key.dark  { background: #0f3d37; color: #eafaf7; }
+
+        /* Lower layer palette */
+        .card-lower { background: #c9922f; }
+        .card-lower .key.light { background: #f0d9a8; color: #3a2a0a; }
+        .card-lower .key.dark  { background: #4a3410; color: #fbeed2; }
+
+        /* Raise layer palette */
+        .card-raise { background: #8177d1; }
+        .card-raise .key.light { background: #d8d3f5; color: #241f4a; }
+        .card-raise .key.dark  { background: #2c2660; color: #f1eefc; }
+
+        /* Column positions */
+        .c1{grid-column:1}.c2{grid-column:2}.c3{grid-column:3}.c4{grid-column:4}
+        .c5{grid-column:5}.c6{grid-column:6}.c7{grid-column:7}.c8{grid-column:8}
+        .c9{grid-column:9}.c10{grid-column:10}.c11{grid-column:11}.c12{grid-column:12}
+        .c13{grid-column:13}.c14{grid-column:14}
+        /* Row positions */
+        .r1{grid-row:1}.r2{grid-row:2}.r3{grid-row:3}.r4{grid-row:4}.r5{grid-row:5}
+
+        .footer {
+            color: #8a8a8a;
+            font-size: 11px;
+            margin-top: 4px;
+            max-width: 720px;
+            text-align: center;
+            line-height: 1.5;
+        }
+        .footer .updated-note { color: #ff5c5c; font-weight: 600; }
+
+        @media print {
+            body {
+                background: #fff;
+                padding: 10px 12px;
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+            .legend { color: #333; margin-bottom: 8px; font-size: 9.5px; gap: 12px; }
+            .swatch { width: 9px; height: 9px; }
+            .layer { border-radius: 16px; padding: 12px 18px 9px; margin-bottom: 8px; box-shadow: none; }
+            .layer-title { font-size: 15px; margin-bottom: 8px; }
+            .keyboard-grid { grid-template-columns: repeat(14, 36px); grid-template-rows: repeat(5, 36px); gap: 4px; }
+            .key { border-radius: 6px; box-shadow: none; }
+            .key-shifted { font-size: 6.5px; }
+            .key-main { font-size: 9px; }
+            .key-label { font-size: 7px; }
+            .key.trns { font-size: 11px; }
+            .key.diamond { width: 28px; height: 28px; }
+            .key.updated { box-shadow: 0 0 0 1.5px #ff5c5c; }
+            .key.accent-lower { box-shadow: inset 0 0 0 1.5px #c9922f; }
+            .key.accent-raise { box-shadow: inset 0 0 0 1.5px #8177d1; }
+            .footer { color: #444; font-size: 9px; margin-top: 3px; line-height: 1.3; }
+        }
+    </style>
+</head>
+<body>
+    <div class="legend">
+        <span><span class="swatch" style="background:#bfe3dc"></span>alpha / symbol key</span>
+        <span><span class="swatch" style="background:#0f3d37"></span>modifier / utility key</span>
+        <span><span class="swatch" style="background:#0f3d37;transform:rotate(45deg)"></span>thumb key (stacked column)</span>
+        <span><span class="swatch" style="background:#141414;box-shadow:0 0 0 2px #ff5c5c"></span>changed vs. committed keymap</span>
+    </div>
+
+    <!-- Layer 0: Base -->
+    <div class="layer card-base">
+        <div class="layer-title">Base</div>
+        <div class="keyboard-grid">
+            <div class="key dark c1 r1"><div class="key-shifted">`</div><div class="key-main">Esc</div></div>
+            <div class="key light c2 r1"><div class="key-shifted">!</div><div class="key-main">1</div></div>
+            <div class="key light c3 r1"><div class="key-shifted">@</div><div class="key-main">2</div></div>
+            <div class="key light c4 r1"><div class="key-shifted">#</div><div class="key-main">3</div></div>
+            <div class="key light c5 r1"><div class="key-shifted">$</div><div class="key-main">4</div></div>
+            <div class="key light c6 r1"><div class="key-shifted">%</div><div class="key-main">5</div></div>
+            <div class="key light c9 r1"><div class="key-shifted">^</div><div class="key-main">6</div></div>
+            <div class="key light c10 r1"><div class="key-shifted">&amp;</div><div class="key-main">7</div></div>
+            <div class="key light c11 r1"><div class="key-shifted">*</div><div class="key-main">8</div></div>
+            <div class="key light c12 r1"><div class="key-shifted">(</div><div class="key-main">9</div></div>
+            <div class="key light c13 r1"><div class="key-shifted">)</div><div class="key-main">0</div></div>
+            <div class="key dark c14 r1"><div class="key-label">Back<br>Space</div></div>
+
+            <div class="key dark c1 r2"><div class="key-main">Tab</div></div>
+            <div class="key light c2 r2"><div class="key-main">Q</div></div>
+            <div class="key light c3 r2"><div class="key-main">W</div></div>
+            <div class="key light c4 r2"><div class="key-main">E</div></div>
+            <div class="key light c5 r2"><div class="key-main">R</div></div>
+            <div class="key light c6 r2"><div class="key-main">T</div></div>
+            <div class="key light c9 r2"><div class="key-main">Y</div></div>
+            <div class="key light c10 r2"><div class="key-main">U</div></div>
+            <div class="key light c11 r2"><div class="key-main">I</div></div>
+            <div class="key light c12 r2"><div class="key-main">O</div></div>
+            <div class="key light c13 r2"><div class="key-main">P</div></div>
+            <div class="key dark c14 r2"><div class="key-main">Delete</div></div>
+
+            <div class="key dark c1 r3"><div class="key-main">Ctrl</div></div>
+            <div class="key light c2 r3"><div class="key-main">A</div></div>
+            <div class="key light c3 r3"><div class="key-main">S</div></div>
+            <div class="key light c4 r3"><div class="key-main">D</div></div>
+            <div class="key light c5 r3"><div class="key-main">F</div></div>
+            <div class="key light c6 r3"><div class="key-main">G</div></div>
+            <div class="key light c9 r3"><div class="key-main">H</div></div>
+            <div class="key light c10 r3"><div class="key-main">J</div></div>
+            <div class="key light c11 r3"><div class="key-main">K</div></div>
+            <div class="key light c12 r3"><div class="key-main">L</div></div>
+            <div class="key light c13 r3"><div class="key-shifted">:</div><div class="key-main">;</div></div>
+            <div class="key light c14 r3"><div class="key-shifted">"</div><div class="key-main">'</div></div>
+
+            <div class="key dark c1 r4"><div class="key-main">Shift</div></div>
+            <div class="key light c2 r4"><div class="key-main">Z</div></div>
+            <div class="key light c3 r4"><div class="key-main">X</div></div>
+            <div class="key light c4 r4"><div class="key-main">C</div></div>
+            <div class="key light c5 r4"><div class="key-main">V</div></div>
+            <div class="key light c6 r4"><div class="key-main">B</div></div>
+            <div class="key dark diamond c7 r4"><div class="diamond-inner"><div class="key-main">Home</div></div></div>
+            <div class="key dark diamond c8 r4"><div class="diamond-inner"><div class="key-main">End</div></div></div>
+            <div class="key light c9 r4"><div class="key-main">N</div></div>
+            <div class="key light c10 r4"><div class="key-main">M</div></div>
+            <div class="key light c11 r4"><div class="key-shifted">&lt;</div><div class="key-main">,</div></div>
+            <div class="key light c12 r4"><div class="key-shifted">&gt;</div><div class="key-main">.</div></div>
+            <div class="key light c13 r4"><div class="key-shifted">?</div><div class="key-main">/</div></div>
+            <div class="key dark c14 r4"><div class="key-main">Shift</div></div>
+
+            <div class="key dark c5 r5"><div class="key-label">Win<br>(Cmd)</div></div>
+            <div class="key dark updated accent-lower c6 r5"><div class="key-label">Lower<br>(Fn1)</div></div>
+            <div class="key dark updated diamond c7 r5"><div class="diamond-inner"><div class="key-main">Space</div></div></div>
+            <div class="key dark updated diamond c8 r5"><div class="diamond-inner"><div class="key-main">Enter</div></div></div>
+            <div class="key dark updated accent-raise c9 r5"><div class="key-label">Upper<br>(Fn2)</div></div>
+            <div class="key dark c10 r5"><div class="key-label">Alt<br>(Opt)</div></div>
+        </div>
+    </div>
+
+    <!-- Layer 1: Lower -->
+    <div class="layer card-lower">
+        <div class="layer-title">Lower (Fn1)</div>
+        <div class="keyboard-grid">
+            <div class="key light c1 r1"><div class="key-main">~</div></div>
+            <div class="key light c2 r1"><div class="key-main">!</div></div>
+            <div class="key light c3 r1"><div class="key-main">@</div></div>
+            <div class="key light c4 r1"><div class="key-main">#</div></div>
+            <div class="key light c5 r1"><div class="key-main">$</div></div>
+            <div class="key light c6 r1"><div class="key-main">%</div></div>
+            <div class="key light c9 r1"><div class="key-main">^</div></div>
+            <div class="key light c10 r1"><div class="key-main">&amp;</div></div>
+            <div class="key light c11 r1"><div class="key-main">*</div></div>
+            <div class="key light c12 r1"><div class="key-main">(</div></div>
+            <div class="key light c13 r1"><div class="key-main">)</div></div>
+            <div class="key dark c14 r1"><div class="key-label">Page<br>Up</div></div>
+
+            <div class="key light c1 r2"><div class="key-main">`</div></div>
+            <div class="key trns c2 r2">▽</div>
+            <div class="key light updated c3 r2"><div class="key-main">↑</div></div>
+            <div class="key trns c4 r2">▽</div>
+            <div class="key dark c5 r2"><div class="key-main">Boot</div></div>
+            <div class="key trns c6 r2">▽</div>
+            <div class="key trns c9 r2">▽</div>
+            <div class="key trns c10 r2">▽</div>
+            <div class="key trns c11 r2">▽</div>
+            <div class="key trns c12 r2">▽</div>
+            <div class="key trns c13 r2">▽</div>
+            <div class="key dark c14 r2"><div class="key-label">Page<br>Down</div></div>
+
+            <div class="key dark c1 r3"><div class="key-main">Delete</div></div>
+            <div class="key light updated c2 r3"><div class="key-main">←</div></div>
+            <div class="key light updated c3 r3"><div class="key-main">↓</div></div>
+            <div class="key light updated c4 r3"><div class="key-main">→</div></div>
+            <div class="key trns c5 r3">▽</div>
+            <div class="key trns c6 r3">▽</div>
+            <div class="key light c9 r3"><div class="key-main">←</div></div>
+            <div class="key light c10 r3"><div class="key-main">↓</div></div>
+            <div class="key light c11 r3"><div class="key-main">↑</div></div>
+            <div class="key light c12 r3"><div class="key-main">→</div></div>
+            <div class="key light c13 r3"><div class="key-main">+</div></div>
+            <div class="key light c14 r3"><div class="key-main">|</div></div>
+
+            <div class="key dark c1 r4"><div class="key-label">RGB<br>Mode</div></div>
+            <div class="key dark c2 r4"><div class="key-label">Clear<br>EEPROM</div></div>
+            <div class="key trns c3 r4">▽</div>
+            <div class="key trns c4 r4">▽</div>
+            <div class="key light c5 r4"><div class="key-main">[</div></div>
+            <div class="key light c6 r4"><div class="key-main">{</div></div>
+            <div class="key light diamond c7 r4"><div class="diamond-inner"><div class="key-main">(</div></div></div>
+            <div class="key light diamond c8 r4"><div class="diamond-inner"><div class="key-main">)</div></div></div>
+            <div class="key light c9 r4"><div class="key-main">}</div></div>
+            <div class="key light c10 r4"><div class="key-main">]</div></div>
+            <div class="key trns c11 r4">▽</div>
+            <div class="key trns c12 r4">▽</div>
+            <div class="key light c13 r4"><div class="key-main">-</div></div>
+            <div class="key trns c14 r4">▽</div>
+
+            <div class="key trns c5 r5">▽</div>
+            <div class="key trns c6 r5">▽</div>
+            <div class="key dark diamond c7 r5"><div class="diamond-inner"><div class="key-main">Delete</div></div></div>
+            <div class="key dark diamond c8 r5"><div class="diamond-inner"><div class="key-main">Delete</div></div></div>
+            <div class="key trns c9 r5">▽</div>
+            <div class="key trns c10 r5">▽</div>
+        </div>
+    </div>
+
+    <!-- Layer 2: Raise -->
+    <div class="layer card-raise">
+        <div class="layer-title">Raise (Fn2)</div>
+        <div class="keyboard-grid">
+            <div class="key light c1 r1"><div class="key-main">F12</div></div>
+            <div class="key light c2 r1"><div class="key-main">F1</div></div>
+            <div class="key light c3 r1"><div class="key-main">F2</div></div>
+            <div class="key light c4 r1"><div class="key-main">F3</div></div>
+            <div class="key light c5 r1"><div class="key-main">F4</div></div>
+            <div class="key light c6 r1"><div class="key-main">F5</div></div>
+            <div class="key light c9 r1"><div class="key-main">F6</div></div>
+            <div class="key light c10 r1"><div class="key-main">F7</div></div>
+            <div class="key light c11 r1"><div class="key-main">F8</div></div>
+            <div class="key light c12 r1"><div class="key-main">F9</div></div>
+            <div class="key light c13 r1"><div class="key-main">F10</div></div>
+            <div class="key light c14 r1"><div class="key-main">F11</div></div>
+
+            <div class="key dark c1 r2"><div class="key-label">RGB<br>Toggle</div></div>
+            <div class="key light c2 r2"><div class="key-main">!</div></div>
+            <div class="key light c3 r2"><div class="key-main">@</div></div>
+            <div class="key light c4 r2"><div class="key-main">#</div></div>
+            <div class="key light c5 r2"><div class="key-main">$</div></div>
+            <div class="key light c6 r2"><div class="key-main">%</div></div>
+            <div class="key light c9 r2"><div class="key-main">^</div></div>
+            <div class="key light c10 r2"><div class="key-main">&amp;</div></div>
+            <div class="key light c11 r2"><div class="key-main">*</div></div>
+            <div class="key light c12 r2"><div class="key-main">(</div></div>
+            <div class="key light c13 r2"><div class="key-main">)</div></div>
+            <div class="key dark c14 r2"><div class="key-main">Boot</div></div>
+
+            <div class="key dark c1 r3"><div class="key-label">RGB<br>Mode</div></div>
+            <div class="key dark c2 r3"><div class="key-label">Prev<br>Track</div></div>
+            <div class="key dark c3 r3"><div class="key-label">Next<br>Track</div></div>
+            <div class="key dark c4 r3"><div class="key-label">Vol<br>Up</div></div>
+            <div class="key dark c5 r3"><div class="key-label">Page<br>Up</div></div>
+            <div class="key light c6 r3"><div class="key-main">_</div></div>
+            <div class="key light c9 r3"><div class="key-main">=</div></div>
+            <div class="key dark c10 r3"><div class="key-main">Home</div></div>
+            <div class="key dark c11 r3"><div class="key-label">Hue<br>Up</div></div>
+            <div class="key dark c12 r3"><div class="key-label">Sat<br>Up</div></div>
+            <div class="key dark c13 r3"><div class="key-label">Bright<br>Up</div></div>
+            <div class="key light c14 r3"><div class="key-main">\</div></div>
+
+            <div class="key dark c1 r4"><div class="key-main">Mute</div></div>
+            <div class="key dark c2 r4"><div class="key-main">Stop</div></div>
+            <div class="key dark c3 r4"><div class="key-label">Play/<br>Pause</div></div>
+            <div class="key dark c4 r4"><div class="key-label">Vol<br>Down</div></div>
+            <div class="key dark c5 r4"><div class="key-label">Page<br>Down</div></div>
+            <div class="key light c6 r4"><div class="key-main">-</div></div>
+            <div class="key light diamond c7 r4"><div class="diamond-inner"><div class="key-main">(</div></div></div>
+            <div class="key trns diamond c8 r4"><div class="diamond-inner">▽</div></div>
+            <div class="key light c9 r4"><div class="key-main">+</div></div>
+            <div class="key dark c10 r4"><div class="key-main">End</div></div>
+            <div class="key dark c11 r4"><div class="key-label">Hue<br>Down</div></div>
+            <div class="key dark c12 r4"><div class="key-label">Sat<br>Down</div></div>
+            <div class="key dark c13 r4"><div class="key-label">Bright<br>Down</div></div>
+            <div class="key dark c14 r4"><div class="key-label">Clear<br>EEPROM</div></div>
+
+            <div class="key trns c5 r5">▽</div>
+            <div class="key trns c6 r5">▽</div>
+            <div class="key trns diamond c7 r5"><div class="diamond-inner">▽</div></div>
+            <div class="key trns diamond c8 r5"><div class="diamond-inner">▽</div></div>
+            <div class="key trns c9 r5">▽</div>
+            <div class="key trns c10 r5">▽</div>
+        </div>
+    </div>
+
+    <div class="footer">
+        keebio/iris/rev8 &middot; keymap: y0shi_via &middot;
+        <span class="updated-note">red outline</span> = uncommitted change vs. last commit (Base: right-thumb Space/Enter swapped, Lower/Upper are now tap-to-toggle + hold-to-momentary via <code>TT()</code>/<code>TAPPING_TOGGLE&nbsp;1</code>; Lower layer: WASD now doubles as arrow keys).
+        A 4th layer (Adjust) activates whenever Lower + Upper are both on at once &mdash; held together, tap-toggled together, or a mix &mdash; but it's still fully transparent in the JSON, no keys assigned yet.
+    </div>
+</body>
+</html>
